@@ -1,7 +1,9 @@
 dev = require('dev') -- Development
-tick = require('util/tick')
+tick = require('lib/tick')
+bump = require('lib/bump')
 require('asteroid')
 
+world = bump.newWorld()
 asteroids = {}
 
 function love.load()
@@ -12,8 +14,9 @@ end
 function love.update(dt)
   dev.update(dt)
 
-  if love.math.random() < 0.1 then
-    table.insert(asteroids, Asteroid(love.math.random(love.graphics.getWidth()), love.math.random(love.graphics.getHeight()), 1))
+  if love.math.random() < 1 then
+    asteroid = Asteroid(love.math.random(love.graphics.getWidth()), love.math.random(love.graphics.getHeight()), 1)
+    table.insert(asteroids, asteroid)
   end
 
   for i, asteroid in pairs(asteroids) do

@@ -1,8 +1,8 @@
 local dev = {}
 
-debugGraph = require('util/debugGraph') -- FPS & Mem
-lovebird = require('util/lovebird') -- Output to Browser
-lurker = require('util/lurker') -- Hot Reload
+debugGraph = require('lib/debugGraph') -- FPS & Mem
+lovebird = require('lib/lovebird') -- Output to Browser
+lurker = require('lib/lurker') -- Hot Reload
 
 function dev.load()
   fpsGraph = debugGraph:new('fps', 0, 0)

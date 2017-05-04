@@ -1,9 +1,10 @@
-Class = require('util/hump.class')
+Class = require('lib/hump.class')
 
 Asteroid = Class{
   init = function(self, x, y, velocity)
     self.x = x
     self.y = y
+    self.size = 20
     self.velocity = velocity
     -- TODO: This is calculated incorrectly!
     self.velocityX = velocity * love.math.random()
@@ -14,14 +15,19 @@ Asteroid = Class{
     if love.math.random() > .5 then
       self.velocityY = -self.velocityY
     end
+
+    world:add(self, self.x, self.y, self.size, self.size)
   end;
 
   update = function(self)
-    self.x = self.x + self.velocityX
-    self.y = self.y + self.velocityY
+    local goalX = self.x + self.velocityX
+    local goalY = self.y + self.velocityY
+    local actualX, actualY, cols, len = world:move(self, goalX, goalY)
+    self.x = actualX
+    self.y = actualY
   end;
 
   draw = function(self)
-    love.graphics.rectangle('fill', self.x, self.y, 20, 20)
+    love.graphics.rectangle('fill', self.x, self.y, self.size, self.size)
   end;
 }
