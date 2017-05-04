@@ -4,7 +4,7 @@ require('asteroid')
 function love.load()
   dev.load()
 
-  asteroid = Asteroid:new(100, 100)
+  asteroid = Asteroid(100, 100)
 end
 
 function love.update(dt)
@@ -15,6 +15,6 @@ end
 
 function love.draw()
   dev.draw()
-  
-  love.graphics.rectangle('fill', asteroid.x, asteroid.y, 20, 20)
+
+  asteroid:draw()
 end

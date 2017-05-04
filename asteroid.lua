@@ -1,8 +1,12 @@
-class = require('util/middleclass')
+Class = require('util/hump/class')
 
-Asteroid = class('Asteroid')
+Asteroid = Class{
+  init = function(self, x, y)
+    self.x = x
+    self.y = y
+  end;
 
-function Asteroid:initialize(x, y)
-  self.x = x
-  self.y = y
-end
+  draw = function(self)
+    love.graphics.rectangle('fill', self.x, self.y, 20, 20)
+  end
+}
