@@ -1,5 +1,4 @@
 dev = require('dev') -- Development Only
-tick = require('lib/tick')
 bump = require('lib/bump')
 require('asteroid')
 
@@ -8,7 +7,6 @@ asteroids = {}
 
 function love.load()
   dev.load()
-  tick.framerate = 60
 end
 
 function love.update(dt)
