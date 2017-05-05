@@ -11,6 +11,11 @@ function AsteroidUpdateSystem:update()
     else
       world:remove(entity)
       engine:removeEntity(entity)
+
+      for k, col in pairs(cols) do
+        world:remove(col.other)
+        engine:removeEntity(col.other)
+      end
     end
   end
 end

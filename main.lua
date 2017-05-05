@@ -23,11 +23,11 @@ function love.update(dt)
   dev.update(dt)
 
   --if love.math.random() < 1 then
-  for i = 1, 100 do
+  for i = 1, 50 do
     createAsteroid()
   end
 
-  print('Entity Count: ', #engine:getEntitiesWithComponent('Asteroid'))
+  --print('Entity Count: ', #engine:getEntitiesWithComponent('Asteroid'))
   engine:update(dt)
 end
 
