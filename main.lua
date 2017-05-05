@@ -10,10 +10,7 @@ local Asteroid, Player = Component.load({'Asteroid', 'Player'})
 local AsteroidUpdateSystem = require('systems.AsteroidUpdateSystem')
 local AsteroidDrawSystem = require('systems.AsteroidDrawSystem')
 local PlayerDrawSystem = require('systems.PlayerDrawSystem')
-local KeyPressSystem = require("systems.KeyPressSystem")
-
-require("events/KeyPressed")
-require("events/MousePressed")
+local PlayerUpdateSystem = require('systems.PlayerUpdateSystem')
 
 world = bump.newWorld()
 engine = lovetoys.Engine()
@@ -26,14 +23,10 @@ function love.load()
 
   love.window.setTitle('Asteroids')
 
-  eventManager = EventManager()
-  keyPressSystem = KeyPressSystem()
-
-  eventManager:addListener("KeyPressed", keyPressSystem, keyPressSystem.fireEvent)
-
   engine:addSystem(AsteroidUpdateSystem())
   engine:addSystem(AsteroidDrawSystem())
   engine:addSystem(PlayerDrawSystem())
+  engine:addSystem(PlayerUpdateSystem())
 
   createPlayer()
 end
@@ -55,15 +48,6 @@ function love.draw()
   dev.draw()
 
   engine:draw()
-end
-
-function love.keypressed(key, isrepeat)
-  love.keyboard.setKeyRepeat(true)
-  eventManager:fireEvent(KeyPressed(key, isrepeat))
-end
-
-function love.mousepressed(x, y, button)
-  eventManager:fireEvent(MousePressed(x, y, button))
 end
 
 function createPlayer()
