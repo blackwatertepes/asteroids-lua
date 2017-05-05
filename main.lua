@@ -6,42 +6,11 @@ require('asteroid')
 
 local Ast = Component.load({'Ast'})
 engine = lovetoys.Engine()
-AsteroidUpdateSystem = class('AsteroidUpdateSystem', System)
-AsteroidDrawSystem = class('AsteroidDrawSystem', System)
 
-function AsteroidUpdateSystem:update()
-  print('update')
-  for i, entity in pairs(self.targets) do
-    local goalX = entity.components.Ast.x + entity.components.Ast.velocityX
-    local goalY = entity.components.Ast.y + entity.components.Ast.velocityY
-    local actualX, actualY, cols, len = world:move(entity.components.Ast, goalX, goalY)
-    if len == 0 then
-      entity.components.Ast.x = actualX
-      entity.components.Ast.y = actualY
-    else
-      world:remove(entity.components.Ast)
-      engine:removeEntity(entity)
-    end
-  end
-end
-
-function AsteroidUpdateSystem:requires()
-  return {'Ast'}
-end
-
-function AsteroidDrawSystem:draw()
-  for i, entity in pairs(self.targets) do
-    local x, y, size = entity:get('Ast').x, entity:get('Ast').y, entity:get('Ast').size
-    love.graphics.rectangle('fill', x, y, size, size)
-  end
-end
-
-function AsteroidDrawSystem:requires()
-  return {'Ast'}
-end
+local AsteroidUpdateSystem = require('systems.AsteroidUpdateSystem')
+local AsteroidDrawSystem = require('systems.AsteroidDrawSystem')
 
 world = bump.newWorld()
-asteroids = {}
 
 function love.load()
   dev.load()
