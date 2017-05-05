@@ -7,15 +7,16 @@ function AsteroidUpdateSystem:update(dt)
     goalY = comp.y + (comp.stepY * dt)
     local actualX, actualY, cols, len = world:move(entity, goalX, goalY)
     if len == 0 then
-      entity.components.Asteroid.x = actualX
-      entity.components.Asteroid.y = actualY
+      comp.x = actualX
+      comp.y = actualY
     else
       world:remove(entity)
       engine:removeEntity(entity)
 
       for k, col in pairs(cols) do
-        world:remove(col.other)
-        engine:removeEntity(col.other)
+        -- TODO: Turn this back on, for asteroid on asteroid collision
+        --world:remove(col.other)
+        --engine:removeEntity(col.other)
       end
     end
   end
