@@ -2,21 +2,21 @@ local AsteroidUpdateSystem = class('AsteroidUpdateSystem', System)
 
 function AsteroidUpdateSystem:update()
   for i, entity in pairs(self.targets) do
-    local goalX = entity.components.Ast.x + entity.components.Ast.velocityX
-    local goalY = entity.components.Ast.y + entity.components.Ast.velocityY
-    local actualX, actualY, cols, len = world:move(entity.components.Ast, goalX, goalY)
+    local goalX = entity.components.Asteroid.x + entity.components.Asteroid.velocityX
+    local goalY = entity.components.Asteroid.y + entity.components.Asteroid.velocityY
+    local actualX, actualY, cols, len = world:move(entity, goalX, goalY)
     if len == 0 then
-      entity.components.Ast.x = actualX
-      entity.components.Ast.y = actualY
+      entity.components.Asteroid.x = actualX
+      entity.components.Asteroid.y = actualY
     else
-      world:remove(entity.components.Ast)
+      world:remove(entity)
       engine:removeEntity(entity)
     end
   end
 end
 
 function AsteroidUpdateSystem:requires()
-  return {'Ast'}
+  return {'Asteroid'}
 end
 
 return AsteroidUpdateSystem
