@@ -20,6 +20,8 @@ local asteroid_last = love.timer.getTime() -- Time of last asteroid
 function love.load()
   dev.load()
 
+  love.window.setTitle('Asteroids')
+
   engine:addSystem(AsteroidUpdateSystem())
   engine:addSystem(AsteroidDrawSystem())
   engine:addSystem(PlayerDrawSystem())
