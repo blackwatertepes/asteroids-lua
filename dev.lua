@@ -7,6 +7,7 @@ lurker = require('lib/lurker') -- Hot Reload
 function dev.load()
   fpsGraph = debugGraph:new('fps', 0, 0)
   memGraph = debugGraph:new('mem', 0, 30)
+  lovebird.update()
 end
 
 function dev.update(dt)
