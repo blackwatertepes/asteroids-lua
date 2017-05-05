@@ -22,8 +22,7 @@ end
 function love.update(dt)
   dev.update(dt)
 
-  --if love.math.random() < 1 then
-  for i = 1, 50 do
+  if #engine:getEntitiesWithComponent('Asteroid') < 2 then
     createAsteroid()
   end
 
@@ -39,8 +38,7 @@ end
 
 function createAsteroid()
   asteroid = lovetoys.Entity()
-  local x, y, velocity = love.math.random(love.graphics.getWidth()), love.math.random(love.graphics.getHeight()), 1
-  asteroid:add(Asteroid(x, y, velocity))
+  asteroid:add(Asteroid())
   engine:addEntity(asteroid)
   world:add(asteroid, asteroid.components.Asteroid.x, asteroid.components.Asteroid.y, asteroid.components.Asteroid.size, asteroid.components.Asteroid.size)
 end

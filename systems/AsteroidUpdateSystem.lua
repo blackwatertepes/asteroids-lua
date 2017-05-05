@@ -1,9 +1,10 @@
 local AsteroidUpdateSystem = class('AsteroidUpdateSystem', System)
 
-function AsteroidUpdateSystem:update()
+function AsteroidUpdateSystem:update(dt)
   for i, entity in pairs(self.targets) do
-    local goalX = entity.components.Asteroid.x + entity.components.Asteroid.velocityX
-    local goalY = entity.components.Asteroid.y + entity.components.Asteroid.velocityY
+    local comp = entity.components.Asteroid
+    goalX = comp.x + (comp.stepX * dt)
+    goalY = comp.y + (comp.stepY * dt)
     local actualX, actualY, cols, len = world:move(entity, goalX, goalY)
     if len == 0 then
       entity.components.Asteroid.x = actualX
