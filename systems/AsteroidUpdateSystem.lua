@@ -5,6 +5,7 @@ function AsteroidUpdateSystem:update(dt)
     local comp = entity.components.Asteroid
     goalX = comp.x + (comp.stepX * dt)
     goalY = comp.y + (comp.stepY * dt)
+    comp.rot = comp.rot + (comp.stepRot * dt)
     local actualX, actualY, cols, len = world:move(entity, goalX, goalY)
     if len == 0 then
       comp.x = actualX
