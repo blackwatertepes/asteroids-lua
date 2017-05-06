@@ -1,13 +1,24 @@
 local PlayerUpdateSystem = class("PlayerUpdateSystem", System)
 
 function PlayerUpdateSystem:update(dt)
-  local stepRot = .1
+  local maxRot, stepAcc, stepDeacc = .1, .04, .01
   for i, entity in pairs(self.targets) do
     local comp = entity.components.Player
-    if love.keyboard.isDown('a') or love.keyboard.isDown('left') then
-      comp.rotation = comp.rotation - stepRot
-    elseif love.keyboard.isDown('d') or love.keyboard.isDown('right') then
-      comp.rotation = comp.rotation + stepRot
+    -- Calculate the increase of the rotation
+    if (love.keyboard.isDown('a') or love.keyboard.isDown('left')) and comp.speedRot > -maxRot then
+      comp.speedRot = comp.speedRot - stepAcc
+    elseif (love.keyboard.isDown('d') or love.keyboard.isDown('right')) and comp.speedRot < maxRot then
+      comp.speedRot = comp.speedRot + stepAcc
+    end
+    -- Rotate
+    comp.rotation = comp.rotation + comp.speedRot
+    -- Slow down the rotation
+    if comp.speedRot > 0 + stepDeacc then
+      comp.speedRot = comp.speedRot - stepDeacc
+    elseif comp.speedRot < 0 - stepDeacc then
+      comp.speedRot = comp.speedRot + stepDeacc
+    else
+      comp.speedRot = 0
     end
   end
 end
