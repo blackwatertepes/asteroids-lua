@@ -15,10 +15,16 @@ function AsteroidUpdateSystem:update(dt)
       engine:removeEntity(entity)
 
       for k, col in pairs(cols) do
-        -- TODO: Turn this back on, for asteroid on asteroid collision
-        --world:remove(col.other)
-        --engine:removeEntity(col.other)
+        if col.other:get('Asteroid') then
+          world:remove(col.other)
+          engine:removeEntity(col.other)
+        end
       end
+    end
+    -- Remove asteroids that are farther away than the spawn point
+    if math.sqrt(math.pow(comp.x, 2) + math.pow(comp.y, 2)) > comp.dist * 2 then
+      world:remove(entity)
+      engine:removeEntity(entity)
     end
   end
 end

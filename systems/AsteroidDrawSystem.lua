@@ -1,7 +1,7 @@
 AsteroidDrawSystem = class('AsteroidDrawSystem', System)
 
 function AsteroidDrawSystem:draw()
-  local per, jag = .7 -- percentage to bounding box
+  local per, jag = .65 -- percentage to bounding box
   for i, entity in pairs(self.targets) do
     local comp = entity.components.Asteroid
     local x, y, size, rot = comp.x, comp.y, comp.size, comp.rot
@@ -21,7 +21,7 @@ function AsteroidDrawSystem:draw()
         love.graphics.line(lastXY.x, lastXY.y, comp.size * per * comp.rands[0], comp.rands[1])
       love.graphics.pop()
     love.graphics.pop()
-    --love.graphics.rectangle('line', comp.x, comp.y, comp.size, comp.size) -- Bounding Box
+    love.graphics.rectangle('line', comp.x, comp.y, comp.size, comp.size) -- Bounding Box
   end
 end
 

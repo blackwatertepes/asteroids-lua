@@ -2,7 +2,7 @@ local PlayerUpdateSystem = class("PlayerUpdateSystem", System)
 local Bullet = Component.load({'Bullet'})
 
 function PlayerUpdateSystem:update(dt)
-  local maxRot, stepAcc, stepDeacc, ttf = .1, .04, .01, .2 -- ttf = time til fire
+  local maxRot, stepAcc, stepDeacc, ttf = .08, .04, .02, .2 -- ttf = time til fire
   for i, entity in pairs(self.targets) do
     local comp = entity.components.Player
     -- Calculate the increase of the rotation

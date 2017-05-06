@@ -3,9 +3,8 @@ BulletDrawSystem = class('BulletDrawSystem', System)
 function BulletDrawSystem:draw()
   for i, entity in pairs(self.targets) do
     local comp = entity.components.Bullet
-    local x, y, size = comp.x, comp.y, comp.size
     love.graphics.push()
-      love.graphics.translate(x + size / 2, y + size / 2)
+      love.graphics.translate(comp.x + comp.size / 2, comp.y + comp.size / 2)
       love.graphics.push()
         love.graphics.rotate(comp.angle)
         love.graphics.line(0, 0, -5, 0)
