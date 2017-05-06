@@ -1,7 +1,8 @@
 local PlayerUpdateSystem = class("PlayerUpdateSystem", System)
+local Bullet = Component.load({'Bullet'})
 
 function PlayerUpdateSystem:update(dt)
-  local maxRot, stepAcc, stepDeacc = .1, .04, .01
+  local maxRot, stepAcc, stepDeacc, ttf = .1, .04, .01, .2 -- ttf = time til fire
   for i, entity in pairs(self.targets) do
     local comp = entity.components.Player
     -- Calculate the increase of the rotation
@@ -19,6 +20,11 @@ function PlayerUpdateSystem:update(dt)
       comp.speedRot = comp.speedRot + stepDeacc
     else
       comp.speedRot = 0
+    end
+    -- Determine firing
+    if love.keyboard.isDown('space') and love.timer.getTime() - comp.lastFired > ttf then
+      createEntity(Bullet(comp.x + comp.size / 2, comp.y + comp.size / 2, comp.rotation))
+      comp.lastFired = love.timer.getTime()
     end
   end
 end

@@ -12,8 +12,8 @@ function AsteroidDrawSystem:draw()
         local lastXY = {x = comp.size * per * comp.rands[0], y = comp.rands[1]}
         for i=1, #comp.rands/2-1, 1 do
           local theta = math.pi*2 * i/#comp.rands*2
-          x = 0 + comp.size * per * math.cos(theta) * comp.rands[i*2]
-          y = 0 + comp.size * per * math.sin(theta) * comp.rands[i*2+1]
+          x = comp.size * per * math.cos(theta) * comp.rands[i*2]
+          y = comp.size * per * math.sin(theta) * comp.rands[i*2+1]
           love.graphics.line(lastXY.x, lastXY.y, x, y)
           lastXY.x = x
           lastXY.y = y

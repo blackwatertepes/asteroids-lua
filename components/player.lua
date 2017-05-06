@@ -5,4 +5,5 @@ function Player:initialize()
   self.y = love.graphics.getHeight() / 2 - self.size / 2
   self.rotation = 0
   self.speedRot = 0
+  self.lastFired = 0
 end

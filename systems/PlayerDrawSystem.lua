@@ -10,7 +10,7 @@ function PlayerDrawSystem:draw()
       love.graphics.push()
         love.graphics.rotate(comp.rotation)
         local c, f, b, fi, l = cannonPer * comp.size, frontPer * comp.size, backPer * comp.size, finPer * comp.size, lenPer * comp.size
-        love.graphics.polygon('line', 0, 0, c, c, l/2, c, l/2, f/2, -l/2, b/2, -l/2, b/4, -l/2+fi, b/4, -l/2+fi, -b/4, -l/2, -b/4, -l/2, -b/2, l/2, -f/2, l/2, -c, c, -c, 0, 0)
+        love.graphics.polygon('line', 0, 0, c, c, l/2, c, l/2, f/2, -l/2, b/2, -l/2, b/4, -l/2+fi, b/4, -l/2+fi, -b/4, -l/2, -b/4, -l/2, -b/2, l/2, -f/2, l/2, -c, c, -c)
       love.graphics.pop()
     love.graphics.pop()
     --love.graphics.rectangle('line', comp.x, comp.y, comp.size, comp.size) -- Bounding Box
