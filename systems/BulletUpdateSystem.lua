@@ -7,13 +7,14 @@ function BulletUpdateSystem:update(dt)
     local comp = entity.components.Bullet
     goalX = comp.x + speed * math.cos(comp.angle) * dt
     goalY = comp.y + speed * math.sin(comp.angle) * dt
-    local actualX, actualY, cols, len = world:move(entity, goalX, goalY)
     -- Remove any asteroids that collide
+    local filter = function(item, other)
+      return other:get('Asteroid') and 'slide'
+    end
+    local actualX, actualY, cols, len = world:move(entity, goalX, goalY, filter)
     for j, col in pairs(cols) do
-      if col.other:get('Asteroid') then
-        world:remove(col.other)
-        engine:removeEntity(col.other)
-      end
+      world:remove(col.other)
+      engine:removeEntity(col.other)
     end
     comp.x = goalX
     comp.y = goalY

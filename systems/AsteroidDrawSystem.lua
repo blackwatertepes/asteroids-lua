@@ -21,7 +21,7 @@ function AsteroidDrawSystem:draw()
         love.graphics.line(lastXY.x, lastXY.y, comp.size * per * comp.rands[0], comp.rands[1])
       love.graphics.pop()
     love.graphics.pop()
-    love.graphics.rectangle('line', comp.x, comp.y, comp.size, comp.size) -- Bounding Box
+    --love.graphics.rectangle('line', comp.x, comp.y, comp.size, comp.size) -- Bounding Box
   end
 end
 
