@@ -12,6 +12,11 @@ function BulletUpdateSystem:update(dt)
       return other:get('Asteroid') and 'slide'
     end
     local actualX, actualY, cols, len = world:move(entity, goalX, goalY, filter)
+    if len > 0 then
+      world:remove(entity)
+      engine:removeEntity(entity)
+    end
+
     for j, col in pairs(cols) do
       world:remove(col.other)
       engine:removeEntity(col.other)
@@ -26,7 +31,6 @@ function BulletUpdateSystem:update(dt)
         createEntity(Asteroid({size = size, x = bx, y = by, speed = speed, vector = asteroid.vector - math.random()}))
       end
     end
-    -- The bullet lives through all asteroid encounters
     comp.x = goalX
     comp.y = goalY
     -- Remove bullets that go off-screen
