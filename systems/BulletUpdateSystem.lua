@@ -33,11 +33,11 @@ function BulletUpdateSystem:update(dt)
         for j=0, asteroid.size, 5 do
           local vector = math.random() * math.pi*2
           local x, y = asteroid.x + math.cos(vector) * asteroid.size, asteroid.y + math.sin(vector) * asteroid.size
-          createEntity(Debris({size = 20, x = x, y = y, speed = 100, vector = vector}))
+          createEntity(Debris({size = math.random(10, 20), x = x, y = y, speed = 100, vector = vector}))
         end
         -- If it was a large asteroid, then create 2 smaller ones
         if asteroid.size > 50 then
-          local size, speed = asteroid.size / 2, asteroid.speed
+          local size, speed = asteroid.size / 2 * math.random(50, 150) / 100, asteroid.speed
           local vectorA, vectorB = asteroid.vector + math.pi/2, asteroid.vector - math.pi/2
           local ax, ay = asteroid.x + math.cos(vectorA) * size * .8, asteroid.y + math.sin(vectorA) * size * .8
           local bx, by = asteroid.x + math.cos(vectorB) * size * .8, asteroid.y + math.sin(vectorB) * size * .8

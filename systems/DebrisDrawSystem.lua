@@ -8,7 +8,7 @@ function DebrisDrawSystem:draw()
       love.graphics.translate(x + size / 2, y + size / 2)
       love.graphics.push()
         love.graphics.rotate(comp.rot)
-        love.graphics.line(0, 0, size, 0)
+        love.graphics.line(-size / 2, 0, size / 2, 0)
       love.graphics.pop()
     love.graphics.pop()
   end

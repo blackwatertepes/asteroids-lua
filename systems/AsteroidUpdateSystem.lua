@@ -26,7 +26,7 @@ function AsteroidUpdateSystem:update(dt)
         for j=0, comp.size, 5 do
           local vector = math.random() * math.pi*2
           local x, y = comp.x + math.cos(vector) * comp.size, comp.y + math.sin(vector) * comp.size
-          createEntity(Debris({size = 20, x = x, y = y, speed = 100, vector = vector}))
+          createEntity(Debris({size = math.random(10, 20), x = x, y = y, speed = 100, vector = vector}))
         end
         for k, col in pairs(cols) do
           world:remove(col.other)
@@ -36,7 +36,7 @@ function AsteroidUpdateSystem:update(dt)
           for j=0, comp.size, 5 do
             local vector = math.random() * math.pi*2
             local x, y = comp.x + math.cos(vector) * comp.size, comp.y + math.sin(vector) * comp.size
-            createEntity(Debris({size = 20, x = x, y = y, speed = 100, vector = vector}))
+            createEntity(Debris({size = math.random(10, 20), x = x, y = y, speed = 100, vector = vector}))
           end
         end
       end
