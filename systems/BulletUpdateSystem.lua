@@ -18,7 +18,12 @@ function BulletUpdateSystem:update(dt)
       -- If it was a large asteroid, then create 2 smaller ones
       asteroid = col.other.components.Asteroid
       if asteroid.size > 50 then
-        createEntity(Asteroid({size = asteroid.size / 2, x = asteroid.x, y = asteroid.y}))
+        local size, speed = asteroid.size / 2, asteroid.speed
+        local vectorA, vectorB = asteroid.vector + math.pi/2, asteroid.vector - math.pi/2
+        local ax, ay = asteroid.x + math.cos(vectorA) * size * .8, asteroid.y + math.sin(vectorA) * size * .8
+        local bx, by = asteroid.x + math.cos(vectorB) * size * .8, asteroid.y + math.sin(vectorB) * size * .8
+        createEntity(Asteroid({size = size, x = ax, y = ay, speed = speed, vector = asteroid.vector + math.random()}))
+        createEntity(Asteroid({size = size, x = bx, y = by, speed = speed, vector = asteroid.vector - math.random()}))
       end
     end
     -- The bullet lives through all asteroid encounters
