@@ -9,11 +9,11 @@ function GameUpdateSystem:update(dt)
       local startAngle = math.random() * math.pi*2
       local start = asteroidXY(screenW / 2, screenH / 2, screenW * .5, startAngle)
       local randVector = math.atan2(screenH / 2 - start.y, screenW / 2 - start.x) * math.random(80, 120) / 100
-      createEntity(Asteroid({size = 80, x = start.x, y = start.y, speed = math.random(40, 80), vector = randVector}))
+      createWorldEntity(Asteroid({size = 80, x = start.x, y = start.y, speed = math.random(40, 80), vector = randVector}))
       comp.asteroid_last = love.timer.getTime()
     end
     if comp.player == nil then
-      comp.player = createEntity(Player())
+      comp.player = createWorldEntity(Player())
     end
   end
 end
@@ -33,6 +33,11 @@ function createEntity(comp)
   local entity = lovetoys.Entity()
   entity:add(comp)
   engine:addEntity(entity)
+  return entity
+end
+
+function createWorldEntity(comp)
+  local entity = createEntity(comp)
   world:add(entity, comp.x, comp.y, comp.size, comp.size)
   return entity
 end

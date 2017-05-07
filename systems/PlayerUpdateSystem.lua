@@ -23,7 +23,7 @@ function PlayerUpdateSystem:update(dt)
     end
     -- Determine firing
     if love.keyboard.isDown('space') and love.timer.getTime() - comp.lastFired > ttf then
-      createEntity(Bullet(comp.x + comp.size / 2, comp.y + comp.size / 2, comp.rotation))
+      createWorldEntity(Bullet(comp.x + comp.size / 2, comp.y + comp.size / 2, comp.rotation))
       comp.lastFired = love.timer.getTime()
     end
   end
