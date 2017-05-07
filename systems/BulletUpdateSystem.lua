@@ -1,5 +1,5 @@
 local BulletUpdateSystem = class("BulletUpdateSystem", System)
-local Bullet, Asteroid = Component.load({'Bullet', 'Asteroid'})
+local Bullet, Asteroid, Debris = Component.load({'Bullet', 'Asteroid', 'Debris'})
 
 function BulletUpdateSystem:update(dt)
   local speed = 500
@@ -28,8 +28,14 @@ function BulletUpdateSystem:update(dt)
       for j, col in pairs(cols) do
         world:remove(col.other)
         engine:removeEntity(col.other)
-        -- If it was a large asteroid, then create 2 smaller ones
         asteroid = col.other.components.Asteroid
+        -- Create explosion debris
+        for j=0, asteroid.size, 5 do
+          local vector = math.random() * math.pi*2
+          local x, y = asteroid.x + math.cos(vector) * asteroid.size, asteroid.y + math.sin(vector) * asteroid.size
+          createEntity(Debris({size = 20, x = x, y = y, speed = 100, vector = vector}))
+        end
+        -- If it was a large asteroid, then create 2 smaller ones
         if asteroid.size > 50 then
           local size, speed = asteroid.size / 2, asteroid.speed
           local vectorA, vectorB = asteroid.vector + math.pi/2, asteroid.vector - math.pi/2
