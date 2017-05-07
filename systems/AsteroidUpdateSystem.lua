@@ -22,7 +22,7 @@ function AsteroidUpdateSystem:update(dt)
       end
     end
     -- Remove asteroids that are farther away than the spawn point
-    if math.sqrt(math.pow(comp.x, 2) + math.pow(comp.y, 2)) > comp.dist * 2 then
+    if math.sqrt(math.pow(comp.x, 2) + math.pow(comp.y, 2)) > love.graphics.getWidth() * 3 then
       world:remove(entity)
       engine:removeEntity(entity)
     end

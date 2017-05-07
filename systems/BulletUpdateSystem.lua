@@ -1,5 +1,5 @@
 local BulletUpdateSystem = class("BulletUpdateSystem", System)
-local Bullet = Component.load({'Bullet'})
+local Bullet, Asteroid = Component.load({'Bullet', 'Asteroid'})
 
 function BulletUpdateSystem:update(dt)
   local speed = 500
@@ -15,7 +15,13 @@ function BulletUpdateSystem:update(dt)
     for j, col in pairs(cols) do
       world:remove(col.other)
       engine:removeEntity(col.other)
+      -- If it was a large asteroid, then create 2 smaller ones
+      asteroid = col.other.components.Asteroid
+      if asteroid.size > 50 then
+        createEntity(Asteroid({size = asteroid.size / 2, x = asteroid.x, y = asteroid.y}))
+      end
     end
+    -- The bullet lives through all asteroid encounters
     comp.x = goalX
     comp.y = goalY
     -- Remove bullets that go off-screen
