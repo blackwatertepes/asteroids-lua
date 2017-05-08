@@ -2,6 +2,7 @@ dev = require('dev') -- Development Only
 lovetoys = require('lib/lovetoys.lovetoys')
 lovetoys.initialize({ debug = true, globals = true })
 bump = require('lib/bump')
+uuid = require('lib/uuid')
 
 world = bump.newWorld()
 engine = lovetoys.Engine()
@@ -26,7 +27,19 @@ local GameUpdateSystem = require('systems.GameUpdateSystem')
 function love.load()
   dev.load()
 
-  love.window.setTitle('Asteroids')
+  local appName, uuidFile = 'Asteroids', 'uuid'
+  love.window.setTitle(appName)
+  love.filesystem.setIdentity(appName)
+  local userId = love.filesystem.read(uuidFile)
+  if userId then
+    print('existing uuid found: ', userId)
+  else
+    -- Generate a UUID, and store it locally
+    uuid.randomseed(love.timer.getTime())
+    userId = uuid()
+    success = love.filesystem.write(uuidFile, userId)
+    print(success, ' wrote uuid to ', love.filesystem.getSaveDirectory())
+  end
 
   engine:addSystem(AsteroidUpdateSystem())
   engine:addSystem(AsteroidDrawSystem())
