@@ -27,9 +27,7 @@ local GameUpdateSystem = require('systems.GameUpdateSystem')
 function love.load()
   dev.load()
 
-  local appName, uuidFile = 'Asteroids', 'uuid'
-  love.window.setTitle(appName)
-  love.filesystem.setIdentity(appName)
+  local uuidFile = 'uuid'
   local userId = love.filesystem.read(uuidFile)
   if userId then
     print('existing uuid found: ', userId)
