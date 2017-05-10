@@ -1,8 +1,12 @@
+-- This file is used purely for development purposes only
+-- Upon final packaging of the game, please be sure to remove any references to it
+-- This will mostly likely include the require, load, update, and draw functions within main
+
 local dev = {}
 
-debugGraph = require('lib/debugGraph') -- FPS & Mem
-lovebird = require('lib/lovebird') -- Output to Browser
-lurker = require('lib/lurker') -- Hot Reload
+debugGraph = require('lib/vendor/debugGraph') -- FPS & Mem
+lovebird = require('lib/vendor/lovebird') -- Output to Browser
+lurker = require('lib/vendor/lurker') -- Hot Reload
 
 function dev.load()
   fpsGraph = debugGraph:new('fps', 0, 0)

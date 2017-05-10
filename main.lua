@@ -1,31 +1,31 @@
 dev = require('dev') -- Development Only
-lovetoys = require('lib/lovetoys.lovetoys')
+lovetoys = require('lib/vendor/lovetoys.lovetoys')
 lovetoys.initialize({ debug = true, globals = true })
-bump = require('lib/bump')
-uuid = require('lib/uuid')
+bump = require('lib/vendor/bump')
+uuid = require('lib/vendor/uuid')
 
 world = bump.newWorld()
 engine = lovetoys.Engine()
 
-require('components.asteroid')
-require('components.player')
-require('components.game')
-require('components.bullet')
-require('components.debris')
+require('lib/components.asteroid')
+require('lib/components.player')
+require('lib/components.game')
+require('lib/components.bullet')
+require('lib/components.debris')
 local Game = Component.load({'Game'})
 
-local AsteroidUpdateSystem = require('systems.AsteroidUpdateSystem')
-local AsteroidDrawSystem = require('systems.AsteroidDrawSystem')
-local PlayerDrawSystem = require('systems.PlayerDrawSystem')
-local PlayerUpdateSystem = require('systems.PlayerUpdateSystem')
-local BulletDrawSystem = require('systems.BulletDrawSystem')
-local BulletUpdateSystem = require('systems.BulletUpdateSystem')
-local DebrisDrawSystem = require('systems.DebrisDrawSystem')
-local DebrisUpdateSystem = require('systems.DebrisUpdateSystem')
-local GameUpdateSystem = require('systems.GameUpdateSystem')
+local AsteroidUpdateSystem = require('lib/systems.AsteroidUpdateSystem')
+local AsteroidDrawSystem = require('lib/systems.AsteroidDrawSystem')
+local PlayerDrawSystem = require('lib/systems.PlayerDrawSystem')
+local PlayerUpdateSystem = require('lib/systems.PlayerUpdateSystem')
+local BulletDrawSystem = require('lib/systems.BulletDrawSystem')
+local BulletUpdateSystem = require('lib/systems.BulletUpdateSystem')
+local DebrisDrawSystem = require('lib/systems.DebrisDrawSystem')
+local DebrisUpdateSystem = require('lib/systems.DebrisUpdateSystem')
+local GameUpdateSystem = require('lib/systems.GameUpdateSystem')
 
 function love.load()
-  dev.load()
+  dev.load() -- Development Only
 
   local uuidFile = 'uuid'
   local userId = love.filesystem.read(uuidFile)
@@ -55,11 +55,11 @@ function love.load()
 end
 
 function love.update(dt)
-  dev.update(dt)
+  dev.update(dt) -- Development Only
   engine:update(dt)
 end
 
 function love.draw()
-  dev.draw()
+  dev.draw() -- Development Only
   engine:draw()
 end
