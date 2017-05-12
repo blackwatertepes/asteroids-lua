@@ -32,12 +32,7 @@ function BulletUpdateSystem:update(dt)
         comp:createDebris()
         -- If it was a large asteroid, then create 2 smaller ones
         if comp.size > 50 then
-          local size, speed = comp.size / 2 * math.random(50, 150) / 100, comp.speed
-          local vectorA, vectorB = comp.vector + math.pi/2, comp.vector - math.pi/2
-          local ax, ay = comp.x + math.cos(vectorA) * size * .8, comp.y + math.sin(vectorA) * size * .8
-          local bx, by = comp.x + math.cos(vectorB) * size * .8, comp.y + math.sin(vectorB) * size * .8
-          createWorldEntity(Asteroid({size = size, x = ax, y = ay, speed = speed, vector = comp.vector + math.random()}))
-          createWorldEntity(Asteroid({size = size, x = bx, y = by, speed = speed, vector = comp.vector - math.random()}))
+          comp:createSmaller()
         end
       end
     end
