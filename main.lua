@@ -2,6 +2,7 @@ dev = require('dev') -- Development Only
 lovetoys = require('lib/vendor/lovetoys.lovetoys')
 lovetoys.initialize({ debug = true, globals = true })
 bump = require('lib/vendor/bump')
+lume = require('lib/vendor/lume')
 uuid = require('lib/vendor/uuid')
 
 world = bump.newWorld()
