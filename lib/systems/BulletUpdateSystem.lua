@@ -1,5 +1,5 @@
 local BulletUpdateSystem = class("BulletUpdateSystem", System)
-local Bullet, Asteroid, Debris = Component.load({'Bullet', 'Asteroid', 'Debris'})
+local Bullet, Asteroid = Component.load({'Bullet', 'Asteroid'})
 
 function BulletUpdateSystem:update(dt)
   local speed = 500
@@ -28,21 +28,16 @@ function BulletUpdateSystem:update(dt)
       for j, col in pairs(cols) do
         world:remove(col.other)
         engine:removeEntity(col.other)
-        asteroid = col.other.components.Asteroid
-        -- Create explosion debris
-        for j=0, asteroid.size, 5 do
-          local vector = math.random() * math.pi*2
-          local x, y = asteroid.x + math.cos(vector) * asteroid.size, asteroid.y + math.sin(vector) * asteroid.size
-          createEntity(Debris({size = math.random(10, 20), x = x, y = y, speed = 100, vector = vector}))
-        end
+        comp = col.other.components.Asteroid
+        comp:createDebris()
         -- If it was a large asteroid, then create 2 smaller ones
-        if asteroid.size > 50 then
-          local size, speed = asteroid.size / 2 * math.random(50, 150) / 100, asteroid.speed
-          local vectorA, vectorB = asteroid.vector + math.pi/2, asteroid.vector - math.pi/2
-          local ax, ay = asteroid.x + math.cos(vectorA) * size * .8, asteroid.y + math.sin(vectorA) * size * .8
-          local bx, by = asteroid.x + math.cos(vectorB) * size * .8, asteroid.y + math.sin(vectorB) * size * .8
-          createWorldEntity(Asteroid({size = size, x = ax, y = ay, speed = speed, vector = asteroid.vector + math.random()}))
-          createWorldEntity(Asteroid({size = size, x = bx, y = by, speed = speed, vector = asteroid.vector - math.random()}))
+        if comp.size > 50 then
+          local size, speed = comp.size / 2 * math.random(50, 150) / 100, comp.speed
+          local vectorA, vectorB = comp.vector + math.pi/2, comp.vector - math.pi/2
+          local ax, ay = comp.x + math.cos(vectorA) * size * .8, comp.y + math.sin(vectorA) * size * .8
+          local bx, by = comp.x + math.cos(vectorB) * size * .8, comp.y + math.sin(vectorB) * size * .8
+          createWorldEntity(Asteroid({size = size, x = ax, y = ay, speed = speed, vector = comp.vector + math.random()}))
+          createWorldEntity(Asteroid({size = size, x = bx, y = by, speed = speed, vector = comp.vector - math.random()}))
         end
       end
     end

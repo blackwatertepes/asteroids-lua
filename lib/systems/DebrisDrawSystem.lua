@@ -5,7 +5,7 @@ function DebrisDrawSystem:draw()
     local comp = entity.components.Debris
     local x, y, size, rot = comp.x, comp.y, comp.size, comp.rot
     love.graphics.push()
-      love.graphics.translate(x + size / 2, y + size / 2)
+      love.graphics.translate(x, y)
       love.graphics.push()
         love.graphics.rotate(comp.rot)
         love.graphics.line(-size / 2, 0, size / 2, 0)
