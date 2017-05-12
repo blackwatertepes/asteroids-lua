@@ -14,7 +14,7 @@ function GameUpdateSystem:update(dt)
       createWorldEntity(Asteroid({size = math.random(60, 80), x = start.x, y = start.y, speed = math.random(40, 80), vector = randVector}))
       comp.asteroid_last = love.timer.getTime()
     end
-    if comp.player == nil then
+    if comp.player == nil then --and love.mouse.get() then
       comp.player = createWorldEntity(Player())
     end
   end
