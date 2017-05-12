@@ -7,6 +7,8 @@ function GameUpdateSystem:update(dt)
     if love.timer.getTime() - comp.asteroid_last > comp.asteroid_eta then
       local screenW, screenH = love.graphics.getWidth(), love.graphics.getHeight()
       local startAngle = math.random() * math.pi*2
+      -- TODO: the start dist (screenW * .5) is for dev
+      -- TODO: Remove the .5 before deploy (ex: screenW)
       local start = asteroidXY(screenW / 2, screenH / 2, screenW * .5, startAngle)
       local randVector = math.atan2(screenH / 2 - start.y, screenW / 2 - start.x) * math.random(80, 120) / 100
       createWorldEntity(Asteroid({size = math.random(60, 80), x = start.x, y = start.y, speed = math.random(40, 80), vector = randVector}))
