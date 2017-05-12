@@ -7,11 +7,11 @@ uuid = require('lib/vendor/uuid')
 world = bump.newWorld()
 engine = lovetoys.Engine()
 
+require('lib/components.debris')
 require('lib/components.asteroid')
 require('lib/components.player')
 require('lib/components.game')
 require('lib/components.bullet')
-require('lib/components.debris')
 local Game = Component.load({'Game'})
 
 local AsteroidUpdateSystem = require('lib/systems.AsteroidUpdateSystem')
