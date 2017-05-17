@@ -1,5 +1,5 @@
 local PlayerUpdateSystem = class("PlayerUpdateSystem", System)
-local Bullet = Component.load({'Bullet'})
+local Bullet, Grenade = Component.load({'Bullet', 'Grenade'})
 
 function PlayerUpdateSystem:update(dt)
   local maxRot, stepAcc, stepDeacc, ttf = .08, .04, .02, .2 -- ttf = time til fire
@@ -41,7 +41,7 @@ function PlayerUpdateSystem:update(dt)
       if love.mouse.isDown(1) then
         comp:anchorToMouse()
       else
-        comp:fire(Bullet(comp.x + comp.size / 2, comp.y + comp.size / 2, comp.rotation))
+        comp:fire(Grenade(comp.x + comp.size / 2, comp.y + comp.size / 2, comp.rotation, mouseDistToPlayer * 2))
       end
     end
   end
