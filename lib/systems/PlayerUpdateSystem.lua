@@ -30,13 +30,19 @@ function PlayerUpdateSystem:update(dt)
     local mouseDistToPlayer = math.sqrt(math.pow(love.mouse.getX() - (comp.x + comp.size / 2), 2) + math.pow(love.mouse.getY() - (comp.y + comp.size / 2), 2))
     if mouseDistToPlayer < comp.size * 2 then
       comp.highlight = true
-      -- TODO: Check for mouse down
-      --if love.mouse.isDown(button, ...)
-      comp:anchorToMouse()
+      if love.mouse.isDown(1) then
+        comp:anchorToMouse()
+      end
     else
       comp.highlight = false
-      -- TODO: This should only deanchor on mouse up
-      comp:releaseFromMouse()
+    end
+
+    if comp:loaded() then
+      if love.mouse.isDown(1) then
+        comp:anchorToMouse()
+      else
+        comp:fire(Bullet(comp.x + comp.size / 2, comp.y + comp.size / 2, comp.rotation))
+      end
     end
   end
 end

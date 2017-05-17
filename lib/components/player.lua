@@ -11,17 +11,19 @@ function Player:initialize()
 end
 
 function Player:anchorToMouse()
-  -- TODO: Figure out how to do 'unless'
-  if self.anchorXY == nil then
-    self.anchorXY = {x = love.mouse.getX(), y = love.mouse.getY()}
-  else
-    self.anchorXY = {x = love.mouse.getX(), y = love.mouse.getY()}
-    -- TODO: Figure out rotation
-    --self.rotation = math.atan2(self.anchorXY.y, self.anchorXY.x) / math.pi*2 * 360
-    --self.rotation = lume.angle(self.anchorXY.x, self.anchorXY.y, 0, 0)
-  end
+  self.anchorXY = {x = love.mouse.getX(), y = love.mouse.getY()}
+  self.rotation = lume.angle(self.anchorXY.x, self.anchorXY.y, self.x + self.size / 2, self.y + self.size / 2)
 end
 
 function Player:releaseFromMouse()
   self.anchorXY = nil
+end
+
+function Player:loaded()
+  return self.anchorXY ~= nil
+end
+
+function Player:fire(bullet)
+  self:releaseFromMouse()
+  createWorldEntity(bullet)
 end
