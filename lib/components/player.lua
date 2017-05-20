@@ -25,5 +25,5 @@ end
 
 function Player:fire(bullet)
   self:releaseFromMouse()
-  createWorldEntity(bullet)
+  createWorldEntity({bullet})
 end

@@ -42,6 +42,6 @@ function Asteroid:createSmaller()
   local vectorA, vectorB = self.vector + math.pi/2, self.vector - math.pi/2
   local ax, ay = self.x + math.cos(vectorA) * size * .8, self.y + math.sin(vectorA) * size * .8
   local bx, by = self.x + math.cos(vectorB) * size * .8, self.y + math.sin(vectorB) * size * .8
-  createWorldEntity(Asteroid({size = size, x = ax, y = ay, speed = speed, vector = self.vector + math.random()}))
-  createWorldEntity(Asteroid({size = size, x = bx, y = by, speed = speed, vector = self.vector - math.random()}))
+  createWorldEntity({Asteroid({size = size, x = ax, y = ay, speed = speed, vector = self.vector + math.random()})})
+  createWorldEntity({Asteroid({size = size, x = bx, y = by, speed = speed, vector = self.vector - math.random()})})
 end
