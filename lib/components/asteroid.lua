@@ -1,4 +1,4 @@
-local Debris = Component.load({'Debris'})
+local Debris, Object = Component.load({'Debris', 'Object'})
 
 local Asteroid = Component.create('Asteroid')
 function Asteroid:initialize(opts)
@@ -28,15 +28,13 @@ function Asteroid:createDebris()
     local theta = math.pi*2 * i/#self.rands*2
     local x = self.x + self.size / 2 + self.size / 2 * self.per * math.cos(theta)
     local y = self.y + self.size / 2 + self.size / 2 * self.per * math.sin(theta)
-    local vector = math.random() * math.pi*2
-    createEntity(Debris({ax = x, ay = y, bx = lastXY.x, by = lastXY.y, speed = 40, vector = vector}))
+    createDebris(x, y, lastXY.x, lastXY.y)
     lastXY.x = x
     lastXY.y = y
   end
-  local vector = math.random() * math.pi*2
   local x = self.x + self.size / 2 + self.size / 2 * self.per
   local y = self.y + self.size / 2
-  createEntity(Debris({ax = x, ay = y, bx = lastXY.x, by = lastXY.y, speed = 40, vector = vector}))
+  createDebris(x, y, lastXY.x, lastXY.y)
 end
 
 function Asteroid:createSmaller()

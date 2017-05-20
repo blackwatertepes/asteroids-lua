@@ -2,12 +2,12 @@ DebrisDrawSystem = class('DebrisDrawSystem', System)
 
 function DebrisDrawSystem:draw()
   for i, entity in pairs(self.targets) do
-    local comp = entity.components.Debris
-    local x, y, size, rot = comp.x, comp.y, comp.size, comp.rot
+    local object, debris = entity.components.Object, entity.components.Debris
+    local x, y, size, rot = object.x, object.y, debris.size, object.rotation
     love.graphics.push()
       love.graphics.translate(x, y)
       love.graphics.push()
-        love.graphics.rotate(comp.rot)
+        love.graphics.rotate(rot)
         love.graphics.line(-size / 2, 0, size / 2, 0)
       love.graphics.pop()
     love.graphics.pop()

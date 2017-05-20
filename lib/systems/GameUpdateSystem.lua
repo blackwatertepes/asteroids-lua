@@ -1,5 +1,5 @@
 local GameUpdateSystem = class("GameUpdateSystem", System)
-local Asteroid, Player = Component.load({'Asteroid', 'Player'})
+local Object, Debris, Asteroid, Player = Component.load({'Object', 'Debris', 'Asteroid', 'Player'})
 
 function GameUpdateSystem:update(dt)
   for i, entity in pairs(self.targets) do
@@ -28,6 +28,18 @@ function asteroidXY(x, y, dist, angle)
   local sX = x + dist * math.cos(angle)
   local sY = y + dist * math.sin(angle)
   return {x = sX, y = sY}
+end
+
+function createDebris(ax, ay, bx, by)
+  local vector = math.random() * math.pi*2
+  local rotation = math.atan2(by - ay, bx - ax)
+  local rotationSpeed = math.random() * 10 - 10 / 2
+  local object = Object({x = ax, y = ay, speed = 40, vector = vector, rotation = rotation, rotationSpeed = rotationSpeed})
+  local debris = Debris({ax = ax, ay = ay, bx = bx, by = by})
+  local entity = lovetoys.Entity()
+  entity:add(object)
+  entity:add(debris)
+  engine:addEntity(entity)
 end
 
 function createEntity(comp)
