@@ -1,18 +1,14 @@
 local Player = Component.create('Player')
+local Object, Bullet, Grenade = Component.load({'Object', 'Bullet', 'Grenade'})
 function Player:initialize()
-  self.size = 40
-  self.x = love.graphics.getWidth() / 2 - self.size / 2
-  self.y = love.graphics.getHeight() / 2 - self.size / 2
-  self.rotation = 0
-  self.speedRot = 0
   self.lastFired = 0
   self.highlight = false
   self.anchorXY = nil
 end
 
-function Player:anchorToMouse()
+function Player:anchorToMouse(opts)
   self.anchorXY = {x = love.mouse.getX(), y = love.mouse.getY()}
-  self.rotation = lume.angle(self.anchorXY.x, self.anchorXY.y, self.x + self.size / 2, self.y + self.size / 2)
+  opts.rotation = lume.angle(self.anchorXY.x, self.anchorXY.y, opts.x + opts.width / 2, opts.y + opts.height / 2)
 end
 
 function Player:releaseFromMouse()
@@ -23,7 +19,21 @@ function Player:loaded()
   return self.anchorXY ~= nil
 end
 
-function Player:fire(bullet)
+function Player:fireBullet(opts)
+  local size = 4
+  local x, y = opts.x + opts.width / 2 - size / 2, opts.y + opts.height / 2 - size / 2
+  local object = Object({x = x, y = y, width = size, height = size, rotation = opts.rotation, vector = opts.rotation})
+  self:fire(createWorldEntity(object, {Bullet()}))
+  self.lastFired = love.timer.getTime()
+end
+
+function Player:fireGrenade(dist, opts)
+  local size = 80
+  local x, y = opts.x + opts.width / 2 - size / 2, opts.y + opts.height / 2 - size / 2
+  local object = Object({x = x, y = y, width = size, height = size, rotation = opts.rotation, vector = opts.rotation})
+  self:fire(createWorldEntity(object, {Grenade(dist)}))
+end
+
+function Player:fire(proj)
   self:releaseFromMouse()
-  createWorldEntity({bullet})
 end

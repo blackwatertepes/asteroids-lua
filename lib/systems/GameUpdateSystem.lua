@@ -10,11 +10,11 @@ function GameUpdateSystem:update(dt)
       -- TODO: Remove the .5 before deploy (ex: screenW)
       local start = asteroidXY(screenW / 2, screenH / 2, screenW * .5, startAngle)
       local randVector = math.atan2(screenH / 2 - start.y, screenW / 2 - start.x) * math.random(80, 120) / 100
-      createWorldEntity({Asteroid({size = math.random(60, 80), x = start.x, y = start.y, speed = math.random(40, 80), vector = randVector})})
+      createAsteroid({x = start.x, y = start.y, speed = math.random(40, 80), vector = randVector, size = math.random(60, 80)})
       comp.asteroid_last = love.timer.getTime()
     end
     if comp.player == nil then --and love.mouse.get() then
-      comp.player = createWorldEntity({Player()})
+      comp.player = createPlayer()
     end
   end
 end
@@ -34,9 +34,23 @@ function createDebris(ax, ay, bx, by)
   local vector = math.random() * math.pi*2
   local rotation = math.atan2(by - ay, bx - ax)
   local rotationSpeed = math.random() * 10 - 10 / 2
-  local object = Object({x = ax, y = ay, speed = 40, vector = vector, rotation = rotation, rotationSpeed = rotationSpeed})
+  local object = Object({x = ax, y = ay, speed = 40, vector = vector, rotation = rotation, rotationSpeed = rotationSpeed, updatable = true, removable = true})
   local debris = Debris({ax = ax, ay = ay, bx = bx, by = by})
   createEntity({object, debris})
+end
+
+function createAsteroid(opts)
+  local object = Object({x = opts.x, y = opts.y, width = opts.size, height = opts.size, speed = opts.speed, vector = opts.vector})
+  local asteroid = Asteroid({x = opts.x, y = opts.y, vector = opts.vector, size = opts.size})
+  createWorldEntity(object, {asteroid})
+end
+
+function createPlayer()
+  local size = 40
+  local x = love.graphics.getWidth() / 2 - size / 2
+  local y = love.graphics.getHeight() / 2 - size / 2
+  local object = Object({x = x, y = y, width = size, height = size})
+  return createWorldEntity(object, {Player()})
 end
 
 function createEntity(comps)
@@ -48,11 +62,10 @@ function createEntity(comps)
   return entity
 end
 
-function createWorldEntity(comps)
+function createWorldEntity(worldComp, comps)
   local entity = createEntity(comps)
-  for i, comp in pairs(comps) do
-    world:add(entity, comp.x, comp.y, comp.size, comp.size)
-  end
+  entity:add(worldComp)
+  world:add(entity, worldComp.x, worldComp.y, worldComp.width, worldComp.height)
   return entity
 end
 

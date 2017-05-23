@@ -1,37 +1,27 @@
 local PlayerUpdateSystem = class("PlayerUpdateSystem", System)
-local Bullet, Grenade = Component.load({'Bullet', 'Grenade'})
+local Object = Component.load({'Object'})
 
 function PlayerUpdateSystem:update(dt)
   local maxRot, stepAcc, stepDeacc, ttf = .08, .04, .02, .2 -- ttf = time til fire
   for i, entity in pairs(self.targets) do
-    local comp = entity.components.Player
+    local object, comp = entity.components.Object, entity.components.Player
+    local x, y, rotation, size, speedRot = object.x, object.y, object.rotation, object.width, object.stepRot
     -- Calculate the increase of the rotation
-    if (love.keyboard.isDown('a') or love.keyboard.isDown('left')) and comp.speedRot > -maxRot then
-      comp.speedRot = comp.speedRot - stepAcc
-    elseif (love.keyboard.isDown('d') or love.keyboard.isDown('right')) and comp.speedRot < maxRot then
-      comp.speedRot = comp.speedRot + stepAcc
-    end
-    -- Rotate
-    comp.rotation = comp.rotation + comp.speedRot
-    -- Slow down the rotation
-    if comp.speedRot > 0 + stepDeacc then
-      comp.speedRot = comp.speedRot - stepDeacc
-    elseif comp.speedRot < 0 - stepDeacc then
-      comp.speedRot = comp.speedRot + stepDeacc
-    else
-      comp.speedRot = 0
+    if (love.keyboard.isDown('a') or love.keyboard.isDown('left')) and speedRot > -maxRot then
+      object.rotation = rotation - stepAcc
+    elseif (love.keyboard.isDown('d') or love.keyboard.isDown('right')) and speedRot < maxRot then
+      object.rotation = rotation + stepAcc
     end
     -- Determine firing
     if love.keyboard.isDown('space') and love.timer.getTime() - comp.lastFired > ttf then
-      createWorldEntity({Bullet(comp.x + comp.size / 2, comp.y + comp.size / 2, comp.rotation)})
-      comp.lastFired = love.timer.getTime()
+      comp:fireBullet(object)
     end
 
-    local mouseDistToPlayer = math.sqrt(math.pow(love.mouse.getX() - (comp.x + comp.size / 2), 2) + math.pow(love.mouse.getY() - (comp.y + comp.size / 2), 2))
-    if mouseDistToPlayer < comp.size * 2 then
+    local mouseDistToPlayer = math.sqrt(math.pow(love.mouse.getX() - (x + size / 2), 2) + math.pow(love.mouse.getY() - (y + size / 2), 2))
+    if mouseDistToPlayer < size * 2 then
       comp.highlight = true
       if love.mouse.isDown(1) then
-        comp:anchorToMouse()
+        comp:anchorToMouse(object)
       end
     else
       comp.highlight = false
@@ -39,9 +29,9 @@ function PlayerUpdateSystem:update(dt)
 
     if comp:loaded() then
       if love.mouse.isDown(1) then
-        comp:anchorToMouse()
+        comp:anchorToMouse(object)
       else
-        comp:fire(Grenade(comp.x + comp.size / 2, comp.y + comp.size / 2, comp.rotation, mouseDistToPlayer * 2))
+        comp:fireGrenade(mouseDistToPlayer * 2, object)
       end
     end
   end

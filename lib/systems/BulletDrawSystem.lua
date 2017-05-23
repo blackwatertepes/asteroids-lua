@@ -2,16 +2,16 @@ BulletDrawSystem = class('BulletDrawSystem', System)
 
 function BulletDrawSystem:draw()
   for i, entity in pairs(self.targets) do
-    local comp = entity.components.Bullet
+    local object, comp = entity.components.Object, entity.components.Bullet
     love.graphics.push()
-      love.graphics.translate(comp.x + comp.size / 2, comp.y + comp.size / 2)
+      love.graphics.translate(object.x + object.width / 2, object.y + object.height / 2)
       love.graphics.push()
-        love.graphics.rotate(comp.angle)
-        love.graphics.rectangle('line', -comp.size / 2, -comp.size / 2, comp.size / 2, comp.size / 2)
+        love.graphics.rotate(object.rotation)
+        love.graphics.rectangle('line', -object.width / 2, -object.height / 2, object.width, object.height)
         love.graphics.line(0, 0, -5, 0)
       love.graphics.pop()
     love.graphics.pop()
-    --love.graphics.rectangle('line', comp.x, comp.y, comp.size, comp.size) -- Bounding Box
+    --love.graphics.rectangle('line', object.x, object.y, object.width, object.height) -- Bounding Box
   end
 end
 

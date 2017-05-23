@@ -2,18 +2,25 @@ local Object = Component.create('Object')
 function Object:initialize(opts)
   self.x = opts.x
   self.y = opts.y
+  self.width = opts.width or 0
+  self.height = opts.height or 0
   self.rotation = opts.rotation or 0
   self.vector = opts.vector or 0
   self.speed = opts.speed or 0
   self.stepRot = opts.rotationSpeed or 0
   self.stepX = self.speed * math.cos(self.vector)
   self.stepY = self.speed * math.sin(self.vector)
+  self.origin = {x = self.x, y = self.y}
+  self.updatable = opts.updatable or false
+  self.removable = opts.removable or false
 end
 
 function Object:update(dt)
-  self.rotation = self.rotation + (self.stepRot * dt)
-  self.x = self.x + (self.stepX * dt)
-  self.y = self.y + (self.stepY * dt)
+  if self.updatable then
+    self.rotation = self.rotation + (self.stepRot * dt)
+    self.x = self.x + (self.stepX * dt)
+    self.y = self.y + (self.stepY * dt)
+  end
 end
 
 function Object:offScreen()
@@ -21,7 +28,7 @@ function Object:offScreen()
 end
 
 function Object:canRemove()
-  return self:offScreen()
+  return self:offScreen() and self.removable
 end
 
 function Object:remove(entity)

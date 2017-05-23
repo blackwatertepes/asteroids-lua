@@ -1,17 +1,17 @@
 local BulletUpdateSystem = class("BulletUpdateSystem", System)
-local Bullet, Asteroid = Component.load({'Bullet', 'Asteroid'})
+local Object, Bullet, Asteroid = Component.load({'Object', 'Bullet', 'Asteroid'})
 
 function BulletUpdateSystem:update(dt)
   local speed = 500
   for i, entity in pairs(self.targets) do
-    local comp = entity.components.Bullet
+    local object, comp = entity.components.Object, entity.components.Bullet
     -- Remove bullets that go off-screen
-    if comp.x < 0 or comp.y < 0 or comp.x > love.graphics.getWidth() or comp.y > love.graphics.getHeight() then
+    if object.x < 0 or object.y < 0 or object.x > love.graphics.getWidth() or object.y > love.graphics.getHeight() then
       world:remove(entity)
       engine:removeEntity(entity)
     else
-      goalX = comp.x + speed * math.cos(comp.angle) * dt
-      goalY = comp.y + speed * math.sin(comp.angle) * dt
+      goalX = object.x + speed * math.cos(object.vector) * dt
+      goalY = object.y + speed * math.sin(object.vector) * dt
       -- Remove any asteroids that collide
       local filter = function(item, other)
         return other:get('Asteroid') and 'slide'
@@ -21,18 +21,18 @@ function BulletUpdateSystem:update(dt)
         world:remove(entity)
         engine:removeEntity(entity)
       else
-        comp.x = goalX
-        comp.y = goalY
+        object.x = goalX
+        object.y = goalY
       end
 
       for j, col in pairs(cols) do
         world:remove(col.other)
         engine:removeEntity(col.other)
-        comp = col.other.components.Asteroid
-        comp:createDebris()
+        local obj, ast = col.other.components.Object, col.other.components.Asteroid
+        ast:createDebris(obj)
         -- If it was a large asteroid, then create 2 smaller ones
-        if comp.size > 50 then
-          comp:createSmaller()
+        if obj.width > 50 then
+          ast:createSmaller(obj)
         end
       end
     end
