@@ -12,7 +12,7 @@ function GrenadeUpdateSystem:update(dt)
     elseif lume.distance(object.x, object.y, object.origin.x, object.origin.y, false) > comp.dist then
       world:remove(entity)
       engine:removeEntity(entity)
-      -- TODO: Create an explosion
+      comp:explode(object)
     else
       goalX = object.x + speed * math.cos(object.vector) * dt
       goalY = object.y + speed * math.sin(object.vector) * dt
