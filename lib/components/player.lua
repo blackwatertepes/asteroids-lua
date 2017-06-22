@@ -22,14 +22,14 @@ end
 function Player:fireBullet(opts)
   local size = 4
   local x, y = opts.x + opts.width / 2 - size / 2, opts.y + opts.height / 2 - size / 2
-  local object = Object({x = x, y = y, width = size, height = size, rotation = opts.rotation, vector = opts.rotation})
+  local object = Object({x = x, y = y, width = size, height = size, rotation = opts.rotation, vector = opts.rotation, speed = 500})
   self:fire(createWorldEntity(object, {Bullet()}))
 end
 
 function Player:fireGrenade(dist, opts)
   local size = 4
   local x, y = opts.x + opts.width / 2 - size / 2, opts.y + opts.height / 2 - size / 2
-  local object = Object({x = x, y = y, width = size, height = size, rotation = opts.rotation, vector = opts.rotation})
+  local object = Object({x = x, y = y, width = size, height = size, rotation = opts.rotation, vector = opts.rotation, speed = 500})
   self:fire(createWorldEntity(object, {Grenade(dist)}))
 end
 

@@ -2,7 +2,6 @@ local BulletUpdateSystem = class("BulletUpdateSystem", System)
 local Object, Bullet, Asteroid = Component.load({'Object', 'Bullet', 'Asteroid'})
 
 function BulletUpdateSystem:update(dt)
-  local speed = 500
   for i, entity in pairs(self.targets) do
     local object, comp = entity.components.Object, entity.components.Bullet
     -- Remove bullets that go off-screen
@@ -10,8 +9,8 @@ function BulletUpdateSystem:update(dt)
       world:remove(entity)
       engine:removeEntity(entity)
     else
-      goalX = object.x + speed * math.cos(object.vector) * dt
-      goalY = object.y + speed * math.sin(object.vector) * dt
+      goalX = object.x + object.speed * math.cos(object.vector) * dt
+      goalY = object.y + object.speed * math.sin(object.vector) * dt
       -- Remove any asteroids that collide
       local filter = function(item, other)
         return other:get('Asteroid') and 'slide'
